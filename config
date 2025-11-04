@@ -37,7 +37,7 @@ exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && $refresh_i3status
+#bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && $refresh_i3status
 #bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
@@ -46,6 +46,7 @@ bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDI
 #bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 
 bindsym XF86AudioPause exec --no-startup-id playerctl play-pause
+bindsym XF86AudioMute exec --no-startup-id playerctl next
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -54,15 +55,15 @@ floating_modifier $mod
 set $virtmgr "sh /home/chloe/Documents/QEMU-KVM/openVirtManager.sh"
 
 set $hidemouse "sh -c 'eval `xdotool getdisplaygeometry --shell`; xdotool mousemove $((WIDTH/2)) $((HEIGHT))'"
-set $movemouse "sh -c 'eval `xdotool getactivewindow getwindowgeometry --shell`; xdotool mousemove $((X+WIDTH/2)) $((Y+HEIGHT/2))'"
-set $delaymovemouse "sh -c 'xdotool sleep 0.5; eval `xdotool getactivewindow getwindowgeometry --shell`; xdotool mousemove $((X+WIDTH/2)) $((Y+HEIGHT/2))'"
+set $movemouse "sh -c 'eval `xdotool getactivewindow getwindowgeometry --shell`; xdotool mousemove $((X+WIDTH/2)) $((Y+HEIGHT/16))'"
+set $delaymovemouse "sh -c 'xdotool sleep 0.5; eval `xdotool getactivewindow getwindowgeometry --shell`; xdotool mousemove $((X+WIDTH/2)) $((Y+HEIGHT/16))'"
 
 
 # start a terminal
 bindsym Mod1+Control+t exec i3-sensible-terminal; exec --no-startup-id $delaymovemouse
 bindsym $mod+Return exec i3-sensible-terminal; exec --no-startup-id $delaymovemouse
 bindsym $mod+Shift+c split toggle, exec "urxvt"; exec --no-startup-id $delaymovemouse
-bindsym $mod+Shift+f exec librewolf; exec --no-startup-id $hidemouse
+bindsym $mod+Shift+f exec librewolf; exec --no-startup-id $delaymovemouse
 # bindsym $mod+Shift+f [class="URxvt"] exec urxvt
 
 # kill focused window
@@ -324,8 +325,8 @@ default_floating_border none
 #hide_edge_borders smart
 hide_edge_borders smart_no_gaps
 
-exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/drift.jpg
-#exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/frieren.jpg
+#exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/drift.jpg
+exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/frieren.jpg
 #exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/cyberpunk.jpg
 #exec_always --no-startup-id feh --bg-fill ~/Documents/pictures/wallpapers/landscape.jpg
 exec_always --no-startup-id nitrogen --restore
@@ -350,7 +351,11 @@ for_window [class="Java"] move to workspace $ws2
 for_window [class="Eclipse"] move to workspace $ws2
 for_window [class="virt-manager"] move to workspace $ws5
 for_window [class="Virt-manager"] move to workspace $ws5
+for_window [class="virt-manager" floating] border pixel 2
+for_window [class="Virt-manager" floating] border pixel 2
 for_window [class="Gnome-terminal"] floating enable
+for_window [class="gnome-calculator"] floating enable
+
 
 focus_wrapping force
 default_orientation vertical
